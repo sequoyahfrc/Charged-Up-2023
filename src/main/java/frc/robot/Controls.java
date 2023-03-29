@@ -62,8 +62,20 @@ public final class Controls {
         return INSTANCE.driver2.getRawAxis(1) > 0.25;
     }
 
-    public static boolean getDriver2ManualClaw() {
-        return INSTANCE.driver2.getRawButton(1);
+    public static boolean getDriver2ManualClawUp() {
+        return INSTANCE.driver2.getRawButton(5);
+    }
+
+    public static boolean getDriver2ManualClawDown() {
+        return INSTANCE.driver2.getRawButton(3);
+    }
+
+    public static boolean getDriver2Shoot() {
+        return INSTANCE.driver2.getRawButtonPressed(1);
+    }
+
+    public static boolean getDriver2Intake() {
+        return INSTANCE.driver2.getRawButton(6);
     }
 
     private Controls() {}

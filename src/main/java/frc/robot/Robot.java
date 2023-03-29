@@ -9,23 +9,21 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.auto.AutoConstants;
 import frc.robot.auto.Balance2Routine;
 import frc.robot.auto.BalanceRoutine;
-import frc.robot.auto.DumpRoutine;
 import frc.robot.auto.MobilityRoutine;
+import frc.robot.claw.ClawConstants;
 import frc.robot.claw.ClawSubsystem;
+import frc.robot.claw.commands.ShootCommand;
 import frc.robot.drive.DriveSubsystem;
 import frc.robot.drive.commands.DriveCommand;
 import frc.robot.elevator.ElevatorConstants;
 import frc.robot.elevator.ElevatorSubsystem;
-import frc.robot.extender.ExtenderSubsystem;
 
 public class Robot extends TimedRobot {
   private final DriveSubsystem driveSubsystem = new DriveSubsystem();
-  private final ExtenderSubsystem extenderSubsystem = new ExtenderSubsystem();
   private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
   private final ClawSubsystem clawSubsystem = new ClawSubsystem();
 
@@ -78,17 +76,7 @@ public class Robot extends TimedRobot {
         autoCommand = new BalanceRoutine(driveSubsystem, false);
         break;
       case AutoConstants.ROUTINE_BALANCE2:
-      autoCommand = new Balance2Routine(driveSubsystem);
-      break;
-      case AutoConstants.ROUTINE_DUMP:
-        driveSubsystem.calibrateGyro(Rotation2d.fromDegrees(180)); 
-        autoCommand = new DumpRoutine(elevatorSubsystem, extenderSubsystem, clawSubsystem);
-        break;
-      case AutoConstants.ROUTINE_DUMP2:
-        driveSubsystem.calibrateGyro(Rotation2d.fromDegrees(180)); 
-        autoCommand = new SequentialCommandGroup(
-          new DumpRoutine(elevatorSubsystem, extenderSubsystem, clawSubsystem),
-          new BalanceRoutine(driveSubsystem, false));
+        autoCommand = new Balance2Routine(driveSubsystem);
         break;
       default:
         autoCommand = new InstantCommand();
@@ -114,27 +102,26 @@ public class Robot extends TimedRobot {
       }
     }
 
-    // Extender
-    if (extenderSubsystem.getCurrentCommand() == null) {
-      if (Controls.getDriver2ManualExtenderExtend() && !Controls.getDriver2ManualExtenderRetract()) {
-        extenderSubsystem.extend();
-      } else if (Controls.getDriver2ManualExtenderRetract() && !Controls.getDriver2ManualExtenderExtend()) {
-        extenderSubsystem.retract();
-      } else {
-        extenderSubsystem.stop();
-      }
-    }
-
     // Claw
     if (clawSubsystem.getCurrentCommand() == null) {
-      clawSubsystem.set(Controls.getDriver2ManualClaw());
+      if (Controls.getDriver2ManualClawUp() && !Controls.getDriver2ManualClawDown()) {
+        clawSubsystem.setWrist(ClawConstants.WRIST_MANUAL_UP_SPEED);
+      } else if (Controls.getDriver2ManualClawDown() && !Controls.getDriver2ManualClawUp()) {
+        clawSubsystem.setWrist(ClawConstants.WRIST_MANUAL_DOWN_SPEED);
+      } else {
+        clawSubsystem.setWrist(0);
+      }
+
+      if (Controls.getDriver2Shoot()) {
+        CommandScheduler.getInstance().schedule(new ShootCommand(clawSubsystem));
+      }
     }
 
     // Cancel
     if (Controls.getDriver1Cancel() || Controls.getDriver2Cancel()) {
       CommandScheduler.getInstance().cancelAll();
       elevatorSubsystem.stop();
-      extenderSubsystem.stop();
+      clawSubsystem.stop();
     }
   }
 
