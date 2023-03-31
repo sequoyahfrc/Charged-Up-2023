@@ -5,6 +5,8 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 //import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.util.sendable.SendableBuilder;
+import edu.wpi.first.util.sendable.SendableRegistry;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public final class ClawSubsystem extends SubsystemBase {
@@ -21,6 +23,14 @@ public final class ClawSubsystem extends SubsystemBase {
         intakeR.configFactoryDefault();
         wrist.configFactoryDefault();
         wrist.configNeutralDeadband(0.01);
+        wrist.configReverseSoftLimitEnable(true);
+        wrist.configForwardSoftLimitEnable(true);
+        wrist.configForwardSoftLimitThreshold(ClawConstants.CLAW_MAX_ANGLE / 360 * 2048 * ClawConstants.WRIST_GEAR_RATIO);
+        wrist.configPeakOutputForward(ClawConstants.WRIST_MANUAL_UP_SPEED * 1.5);
+        wrist.configPeakOutputReverse(ClawConstants.WRIST_MANUAL_DOWN_SPEED * 1.5);
+        double clawDefault = -ClawConstants.HORIZONTAL_ANGLE / 360.0 * 2048.0 * ClawConstants.WRIST_GEAR_RATIO;
+        wrist.setSelectedSensorPosition(clawDefault);
+        wrist.configReverseSoftLimitThreshold(clawDefault);
 
         intakeL.configVoltageCompSaturation(12);
         intakeL.enableVoltageCompensation(true);
@@ -29,19 +39,14 @@ public final class ClawSubsystem extends SubsystemBase {
         wrist.configVoltageCompSaturation(12);
         wrist.enableVoltageCompensation(true);
 
-        // TODO: determine if intake inverted
-        intakeL.setInverted(false);
-        intakeR.setInverted(intakeL.getInverted());
-        intakeR.follow(intakeL);
+        intakeL.setNeutralMode(NeutralMode.Brake);
+        intakeR.setNeutralMode(NeutralMode.Brake);
         
-        intakeL.setNeutralMode(NeutralMode.Coast);
-        intakeR.setNeutralMode(NeutralMode.Coast);
-        
-        // TODO: determine if wrist inverted
         wrist.setInverted(false);
         wrist.setNeutralMode(NeutralMode.Brake);
-        wrist.setSelectedSensorPosition(ClawConstants.HORIZONTAL_ANGLE / 360.0 * 2048.0 * ClawConstants.WRIST_GEAR_RATIO);
         stop();
+
+        SendableRegistry.add(this, "ClawSubsystem");
     }
 
     public void setIntake(double speed) {
@@ -80,5 +85,12 @@ public final class ClawSubsystem extends SubsystemBase {
         builder.addDoubleProperty("wristPercentOutput", wrist::get, x -> {});
         builder.addDoubleProperty("wristVelocity", this::getWristVelocity, x -> {});
         builder.addDoubleProperty("intakePercentOutput", intakeL::get, x -> {});
+        builder.addDoubleProperty("intakeVelocity", () -> intakeL.getSelectedSensorVelocity() / 2048 / 4 * 360, x -> {});
+    }
+
+    @Override
+    public void periodic() {
+        intakeR.set(-intakeL.get());
+        SmartDashboard.putData(this);
     }
 }

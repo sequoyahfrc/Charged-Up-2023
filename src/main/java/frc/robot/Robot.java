@@ -16,11 +16,14 @@ import frc.robot.auto.BalanceRoutine;
 import frc.robot.auto.MobilityRoutine;
 import frc.robot.claw.ClawConstants;
 import frc.robot.claw.ClawSubsystem;
+import frc.robot.claw.commands.SetClawAngleCommand;
 import frc.robot.claw.commands.ShootCommand;
 import frc.robot.drive.DriveSubsystem;
 import frc.robot.drive.commands.DriveCommand;
 import frc.robot.elevator.ElevatorConstants;
+import frc.robot.elevator.ElevatorHeight;
 import frc.robot.elevator.ElevatorSubsystem;
+import frc.robot.elevator.commands.SetElevatorCommand;
 
 public class Robot extends TimedRobot {
   private final DriveSubsystem driveSubsystem = new DriveSubsystem();
@@ -100,6 +103,13 @@ public class Robot extends TimedRobot {
       } else {
         elevatorSubsystem.stop();
       }
+
+      if (Controls.INSTANCE.driver2.getRawButtonPressed(11)) {
+        CommandScheduler.getInstance().schedule(new SetElevatorCommand(ElevatorHeight.MIDDLE.getPosition(), elevatorSubsystem));
+      }
+      if (Controls.INSTANCE.driver2.getRawButtonPressed(12)) {
+        CommandScheduler.getInstance().schedule(new SetClawAngleCommand(45, clawSubsystem));
+      }
     }
 
     // Claw
@@ -114,6 +124,12 @@ public class Robot extends TimedRobot {
 
       if (Controls.getDriver2Shoot()) {
         CommandScheduler.getInstance().schedule(new ShootCommand(clawSubsystem));
+      }
+
+      if (Controls.getDriver2Intake()) {
+        clawSubsystem.setIntake(ClawConstants.INTAKE_SPEED);
+      } else {
+        clawSubsystem.setIntake(0);
       }
     }
 

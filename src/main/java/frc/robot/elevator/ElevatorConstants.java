@@ -12,11 +12,11 @@ public final class ElevatorConstants {
     public static final double DEADBAND = 0.05;
     public static final double KS = 0.1;
 
-    public static final double MANUAL_UP_SPEED = 0.375;
+    public static final double MANUAL_UP_SPEED = 0.3;
     public static final double MANUAL_DOWN_SPEED = -0.13;
     public static final double MIN_SPEED = 0.01;
     public static final double ZERO_SPEED = -0.1;
-    public static final double MAX_SPEED = 0.4;
+    public static final double MAX_SPEED = 0.3;
 
     public static final double MAX_HEIGHT = 43.0;
 

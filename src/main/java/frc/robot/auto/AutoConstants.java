@@ -61,5 +61,8 @@ public final class AutoConstants {
     public static final double BALANCE_VELOCITY_THRESHOLD = 11.2;
     public static final int BALANCE_FILTER_SIZE = 3;
 
+    public static final double HIGH_CUBE_HEIGHT = 26;
+    public static final double HIGH_CUBE_ANGLE = 44;
+
     private AutoConstants() {}
 }

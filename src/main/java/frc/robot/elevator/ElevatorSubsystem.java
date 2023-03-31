@@ -29,9 +29,9 @@ public final class ElevatorSubsystem extends SubsystemBase {
         right.follow(left);
         left.setSelectedSensorPosition(0);
         left.configPeakOutputForward(ElevatorConstants.MAX_SPEED);
-        left.configPeakOutputReverse(-ElevatorConstants.MAX_SPEED);
+        left.configPeakOutputReverse(-ElevatorConstants.MAX_SPEED / 2);
         right.configPeakOutputForward(ElevatorConstants.MAX_SPEED);
-        right.configPeakOutputReverse(-ElevatorConstants.MAX_SPEED);
+        right.configPeakOutputReverse(-ElevatorConstants.MAX_SPEED / 2);
     }
 
     @Override
@@ -50,7 +50,7 @@ public final class ElevatorSubsystem extends SubsystemBase {
             left.setSelectedSensorPosition(0);
         }
         if (getTopLimitSwitch() && left.get() > 0) {
-            left.set(0.1);
+            left.set(0);
         }
         SmartDashboard.putData(this);
     }
@@ -60,8 +60,8 @@ public final class ElevatorSubsystem extends SubsystemBase {
         if (getMotorPosition() <= 10 && speed < 0) {
             speed *= 0.5;
         }
-        if (getMotorPosition() >= 35 && speed > 0) {
-            speed *= 0.3;
+        if (getMotorPosition() >= 40 && speed > 0) {
+            speed *= 0.5;
         }
         if (Math.abs(speed) > ElevatorConstants.DEADBAND) {
             speed += Math.signum(speed) * ElevatorConstants.KS;

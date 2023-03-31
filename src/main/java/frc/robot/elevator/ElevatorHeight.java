@@ -2,8 +2,8 @@ package frc.robot.elevator;
 
 public enum ElevatorHeight {
     FLOOR(0),
-    MIDDLE(12.5),
-    TOP(25);
+    MIDDLE(26),
+    TOP(43);
 
     private static final ElevatorHeight[] VALUES = ElevatorHeight.values();
     private final double position;
