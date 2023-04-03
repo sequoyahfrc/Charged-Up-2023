@@ -1,6 +1,7 @@
 package frc.robot.claw.commands;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.claw.ClawConstants;
 import frc.robot.claw.ClawSubsystem;
@@ -8,9 +9,11 @@ import frc.robot.claw.ClawSubsystem;
 public final class ShootCommand extends CommandBase {
 
     private final Timer timer = new Timer();
-    private ClawSubsystem clawSubsystem;
+    private final ClawSubsystem clawSubsystem;
+    private final double speed;
 
-    public ShootCommand(ClawSubsystem clawSubsystem) {
+    public ShootCommand(double speed, ClawSubsystem clawSubsystem) {
+        this.speed = speed;
         this.clawSubsystem = clawSubsystem;
 
         addRequirements(clawSubsystem);
@@ -19,15 +22,14 @@ public final class ShootCommand extends CommandBase {
     @Override
     public void initialize() {
         timer.reset();
-        timer.start();
     }
 
-    // TODO: start timer only after wrist stops moving (at zero velocity)
     @Override
     public void execute() {
         clawSubsystem.setWrist(0);
-        if (timer.get() > ClawConstants.SHOOT_DELAY) {
-            clawSubsystem.setIntake(ClawConstants.SHOOT_SPEED);
+        if (clawSubsystem.getWristVelocity() < 1) {
+            timer.start();
+            clawSubsystem.setIntake(speed);
         } else {
             clawSubsystem.setIntake(0);
         }
@@ -35,7 +37,7 @@ public final class ShootCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return timer.get() > (ClawConstants.SHOOT_DELAY + ClawConstants.SHOOT_TIME);
+        return timer.get() > ClawConstants.SHOOT_TIME;
     }
 
     @Override

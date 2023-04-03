@@ -33,7 +33,7 @@ public final class AutoConstants {
     public static final String ROUTINE_BALANCE_INVERTED = "Balance Backwards";
     public static final String ROUTINE_BALANCE2 = "Mobility + Balance";
     public static final String ROUTINE_MOBILITY = "Mobility";
-    public static final String ROUTINE_DUMP = "Dump";
+    public static final String ROUTINE_DUMP = "High Cube";
     public static final String ROUTINE_DUMP2 = "Dump & Balance";
     public static final String[] ROUTINES = new String[] {
         ROUTINE_NOTHING,
@@ -61,8 +61,11 @@ public final class AutoConstants {
     public static final double BALANCE_VELOCITY_THRESHOLD = 11.2;
     public static final int BALANCE_FILTER_SIZE = 3;
 
-    public static final double HIGH_CUBE_HEIGHT = 26;
-    public static final double HIGH_CUBE_ANGLE = 44;
+    public static final double HIGH_CUBE_HEIGHT = 8.08;
+    public static final double HIGH_CUBE_ANGLE = 57.86;
+    public static final double HIGH_CUBE_SPEED = -0.4;
+
+    public static final double LEFT_CONE_TX = -24.052881;
 
     private AutoConstants() {}
 }

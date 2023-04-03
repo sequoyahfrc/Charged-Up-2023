@@ -9,7 +9,7 @@ public final class DriveConstants {
     public static final double AZIMUTH_KS = 0.04 * 12; // Account for static friction
     public static final double DRIVE_KS = 0.04 * 12; // Account for static friction
     public static final double DRIVE_KV = 0.697;
-    public static final double AZIMUTH_ERROR = 1.0;
+    public static final double AZIMUTH_ERROR = 1.5;
 
     public static final double WIDTH = 0.5383022; // meters
     public static final double LENGTH = 0.6399022; // meters
@@ -64,6 +64,8 @@ public final class DriveConstants {
     public static final boolean ENABLE_LATENCY_COMPENSATION = false;
     public static final boolean ENABLE_APRILTAGS = false;
     public static final boolean ENABLE_GYRO_RECALIBRATION = false;
+
+    public static final double LEFT_CONE_TX = -24.052881;
 
     public static int FILTER_SIZE = 5;
 

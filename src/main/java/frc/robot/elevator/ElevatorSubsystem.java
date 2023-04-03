@@ -63,15 +63,13 @@ public final class ElevatorSubsystem extends SubsystemBase {
         if (getMotorPosition() >= 40 && speed > 0) {
             speed *= 0.5;
         }
-        if (Math.abs(speed) > ElevatorConstants.DEADBAND) {
-            speed += Math.signum(speed) * ElevatorConstants.KS;
-        }
         if (getBottomLimitSwitch() && speed < 0) {
             return;
         }
         if (getTopLimitSwitch() && speed > 0) {
             return;
         }
+        speed += ElevatorConstants.KS;
         left.set(filter.calculate(speed));
     }
 

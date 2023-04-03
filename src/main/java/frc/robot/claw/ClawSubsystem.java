@@ -23,8 +23,8 @@ public final class ClawSubsystem extends SubsystemBase {
         intakeR.configFactoryDefault();
         wrist.configFactoryDefault();
         wrist.configNeutralDeadband(0.01);
-        wrist.configReverseSoftLimitEnable(true);
-        wrist.configForwardSoftLimitEnable(true);
+        //wrist.configReverseSoftLimitEnable(true);
+        //wrist.configForwardSoftLimitEnable(true);
         wrist.configForwardSoftLimitThreshold(ClawConstants.CLAW_MAX_ANGLE / 360 * 2048 * ClawConstants.WRIST_GEAR_RATIO);
         wrist.configPeakOutputForward(ClawConstants.WRIST_MANUAL_UP_SPEED * 1.5);
         wrist.configPeakOutputReverse(ClawConstants.WRIST_MANUAL_DOWN_SPEED * 1.5);
@@ -41,6 +41,7 @@ public final class ClawSubsystem extends SubsystemBase {
 
         intakeL.setNeutralMode(NeutralMode.Brake);
         intakeR.setNeutralMode(NeutralMode.Brake);
+        wrist.setNeutralMode(NeutralMode.Brake);
         
         wrist.setInverted(false);
         wrist.setNeutralMode(NeutralMode.Brake);
@@ -70,7 +71,7 @@ public final class ClawSubsystem extends SubsystemBase {
 
     // This is in degrees/s
     public double getWristVelocity() {
-        return wrist.getSelectedSensorVelocity() / ClawConstants.WRIST_GEAR_RATIO / 2048.0 * 360.0;
+        return wrist.getSelectedSensorVelocity() / 10.0 / ClawConstants.WRIST_GEAR_RATIO / 2048.0 * 360.0;
     }
 
     public void stop() {
