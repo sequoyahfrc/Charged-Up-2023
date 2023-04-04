@@ -68,6 +68,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putString("DB/String 3", "P: " + (int)(driveSubsystem.getPitch() * 100.0) / 100.0);
     SmartDashboard.putString("DB/String 4", "R: " + (int)(driveSubsystem.getRoll() * 100.0) / 100.0);
     SmartDashboard.putString("DB/String 5", "TID: " + getPrimaryApriltag().map(x -> "" + x).orElse("N/A"));
+    SmartDashboard.putString("DB/String 6", "CA: " + (int)(clawSubsystem.getAngle() * 100.0) / 100.0);
   }
 
   @Override

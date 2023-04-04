@@ -11,7 +11,7 @@ import frc.robot.elevator.commands.ZeroElevatorCommand;
 
 public enum AutoShootRoutine {
     MID_CUBE(10, 45, 0.2),
-    HIGH_CUBE(20, 40, 0.4);
+    HIGH_CUBE(20, 45, 0.4);
 
     private final double height, angle, speed;
 

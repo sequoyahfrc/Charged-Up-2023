@@ -11,8 +11,8 @@ public final class ClawConstants {
 
     // Speed (in percent) required to hold the arm at the horizontal
     public static final double HORIZONTAL_KS = 0.06;
-    public static final double HORIZONTAL_ANGLE = -27274 / 2048.0 / 48.0 * 360.0; // 8943u
-    public static final double CLAW_MAX_ANGLE = 0; // 14197u
+    public static final double HORIZONTAL_ANGLE = -80.0;
+    public static final double CLAW_MAX_ANGLE = 0;
 
     public static final double WRIST_P = 2.0 / 360.0;
     // PID error, in degrees
