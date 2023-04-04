@@ -61,10 +61,6 @@ public final class DriveConstants {
     public static final double ROTATION_ACCELERATION_TIME = 0.1;
     public static final double MOTOR_ACCELERATION_TIME = 0.001;
 
-    public static final boolean ENABLE_LATENCY_COMPENSATION = false;
-    public static final boolean ENABLE_APRILTAGS = false;
-    public static final boolean ENABLE_GYRO_RECALIBRATION = false;
-
     public static final double LEFT_CONE_TX = -24.052881;
 
     public static int FILTER_SIZE = 5;

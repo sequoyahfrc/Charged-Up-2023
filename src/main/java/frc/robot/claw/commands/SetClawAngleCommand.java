@@ -24,7 +24,7 @@ public final class SetClawAngleCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return pid.atSetpoint() && Math.abs(clawSubsystem.getWristVelocity()) < 0.1;
+        return pid.atSetpoint() && Math.abs(clawSubsystem.getWristVelocity()) < 0.05;
     }
 
     @Override

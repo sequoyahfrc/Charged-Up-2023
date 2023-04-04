@@ -12,7 +12,7 @@ public final class Balance2Routine extends SequentialCommandGroup {
         addCommands(new RunCommand(() -> {
             driveSubsystem.set(new ChassisSpeeds(AutoConstants.BALANCE2_MOBILITY_SPEED, 0, 0));
         }, driveSubsystem)
-            .raceWith(new WaitUntilCommand(() -> Math.abs(driveSubsystem.getPose().getX()) > AutoConstants.BALANCE2_MOBILITY_X_THRESHOLD)));
+            .raceWith(new WaitUntilCommand(() -> Math.abs(driveSubsystem.getOdometryPose().getX()) > AutoConstants.BALANCE2_MOBILITY_X_THRESHOLD)));
         addCommands(new BalanceRoutine(driveSubsystem, true));
         addRequirements(driveSubsystem);
     }

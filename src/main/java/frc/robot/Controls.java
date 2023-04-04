@@ -71,11 +71,23 @@ public final class Controls {
     }
 
     public static boolean getDriver2Shoot() {
-        return INSTANCE.driver2.getRawButtonPressed(1);
+        return INSTANCE.driver2.getRawButton(1);
     }
 
     public static boolean getDriver2Intake() {
         return INSTANCE.driver2.getRawButton(6);
+    }
+
+    public static boolean getDriver2Outtake() {
+        return INSTANCE.driver2.getRawButtonPressed(4);
+    }
+
+    public static boolean getDriver2MidCube() {
+        return INSTANCE.driver2.getRawButtonPressed(9);
+    }
+
+    public static boolean getDriver2HighCube() {
+        return INSTANCE.driver2.getRawButtonPressed(10);
     }
 
     private Controls() {}

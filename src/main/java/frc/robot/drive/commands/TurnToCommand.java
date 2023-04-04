@@ -18,16 +18,16 @@ public final class TurnToCommand extends CommandBase {
 
     @Override
     public void execute() {
-        double speed = getDelta().getRadians();
+        double speed = Math.pow(getDelta() / 360.0 * 10.0, 2);
         if (Math.abs(speed) > DriveConstants.TURN_TO_MAX_SPEED) {
             speed = Math.signum(speed) * DriveConstants.TURN_TO_MAX_SPEED;
         }
-        driveSubsystem.set(new ChassisSpeeds(0, 0, speed));
+        driveSubsystem.set(new ChassisSpeeds(0, 0, -speed));
     }
 
     @Override
     public boolean isFinished() {
-        return Math.abs(getDelta().getDegrees()) <= DriveConstants.TURN_TO_ERROR;
+        return Math.abs(getDelta()) <= DriveConstants.TURN_TO_ERROR;
     }
 
     @Override
@@ -35,7 +35,7 @@ public final class TurnToCommand extends CommandBase {
         driveSubsystem.stop();
     }
 
-    private Rotation2d getDelta() {
-        return rotation.minus(driveSubsystem.getGyro());
+    private double getDelta() {
+        return rotation.getDegrees() - driveSubsystem.getGyro().getDegrees();
     }
 }

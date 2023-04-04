@@ -36,6 +36,6 @@ public final class DriveToCommand extends CommandBase {
     }
 
     private Translation2d getDelta() {
-        return position.minus(driveSubsystem.getPose().getTranslation());
+        return position.minus(driveSubsystem.getOdometryPose().getTranslation());
     }
 }

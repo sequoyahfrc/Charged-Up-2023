@@ -60,7 +60,6 @@ public final class ClawSubsystem extends SubsystemBase {
         speed = Math.max(Math.min(speed, 1), -1);
         // Add speed to hold at horizontal and account for angle of wrist (feed forward)
         double ff = ClawConstants.HORIZONTAL_KS * Math.cos(Math.toRadians(getAngle()));
-        // TODO: if rate limit is needed, uncomment
         //wrist.set(wristLimiter.calculate(speed + ff));
         wrist.set(speed + ff);
     }
@@ -77,6 +76,10 @@ public final class ClawSubsystem extends SubsystemBase {
     public void stop() {
         setIntake(0);
         setWrist(0);
+    }
+
+    public void reset() {
+        wrist.setSelectedSensorPosition(-ClawConstants.HORIZONTAL_ANGLE / 360.0 * 2048.0 * ClawConstants.WRIST_GEAR_RATIO);
     }
 
     @Override

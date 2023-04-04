@@ -2,8 +2,6 @@ package frc.robot.drive;
 
 import static frc.robot.drive.DriveConstants.*;
 
-import java.util.Optional;
-
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
@@ -38,7 +36,6 @@ public final class DriveSubsystem extends SubsystemBase {
     private final SlewRateLimiter vxLimiter = new SlewRateLimiter(1 / DriveConstants.ACCELERATION_TIME, -1_000_000, 0);
     private final SlewRateLimiter vyLimiter = new SlewRateLimiter(1 / DriveConstants.ACCELERATION_TIME, -1_000_000, 0);
     private final SlewRateLimiter omegaLimiter = new SlewRateLimiter(1 / DriveConstants.ROTATION_ACCELERATION_TIME, -1_000_000, 0);
-    private final Localizer localizer;
     private final DoubleArrayLogEntry currentLog = LogFactory.getDoubleArray("8080/Drive/Current");
     private final DoubleArrayLogEntry setpointsLog = LogFactory.getDoubleArray("8080/Drive/Setpoints");
     private double yawOffset, pitchOffset, rollOffset;
@@ -59,7 +56,6 @@ public final class DriveSubsystem extends SubsystemBase {
         gyro = new AHRS(Port.kMXP);
         gyro.zeroYaw();
         odometry = new SwerveDriveOdometry(kinematics, getGyro(), getPositions());
-        localizer = new Localizer(this, odometry);
 
         yawOffset = pitchOffset = rollOffset = 0;
 
@@ -131,7 +127,6 @@ public final class DriveSubsystem extends SubsystemBase {
         backRight.periodic();
 
         odometry.update(getGyro(), getPositions());
-        localizer.periodic();
         SmartDashboard.putData(gyro);
         SmartDashboard.putData("Modules/FL", frontLeft);
         SmartDashboard.putData("Modules/FR", frontRight);
@@ -160,16 +155,16 @@ public final class DriveSubsystem extends SubsystemBase {
     @Override
     public void initSendable(SendableBuilder builder) {
         super.initSendable(builder);
-        builder.addDoubleProperty("x", () -> getPose().getX(), d -> {});
-        builder.addDoubleProperty("y", () -> getPose().getY(), d -> {});
+        builder.addDoubleProperty("x", () -> getOdometryPose().getX(), d -> {});
+        builder.addDoubleProperty("y", () -> getOdometryPose().getY(), d -> {});
         builder.addDoubleProperty("yaw", () -> getGyro().getDegrees(), d -> {});
         builder.addDoubleProperty("pitch", this::getPitch, d -> {});
         builder.addDoubleProperty("roll", this::getRoll, d -> {});
     }
 
-    public Pose2d getPose() {
-        return odometry.getPoseMeters();
-        //return localizer.getPose();
+    public Pose2d getOdometryPose() {
+        var pose = odometry.getPoseMeters();
+        return new Pose2d(-pose.getX(), pose.getY(), getGyro());
     }
 
     public double getRoll() {
@@ -201,9 +196,5 @@ public final class DriveSubsystem extends SubsystemBase {
         frontRight.zero();
         backLeft.zero();
         backRight.zero();
-    }
-
-    public Optional<Integer> getPrimaryApriltag() {
-        return localizer.getPrimaryApriltag();
     }
 }

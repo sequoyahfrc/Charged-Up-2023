@@ -57,7 +57,7 @@ public final class ElevatorSubsystem extends SubsystemBase {
 
     public void setMotor(double speed) {
         // Half speed if near top/bottom
-        if (getMotorPosition() <= 10 && speed < 0) {
+        if (getMotorPosition() <= 5 && speed < 0) {
             speed *= 0.5;
         }
         if (getMotorPosition() >= 40 && speed > 0) {
@@ -69,8 +69,7 @@ public final class ElevatorSubsystem extends SubsystemBase {
         if (getTopLimitSwitch() && speed > 0) {
             return;
         }
-        speed += ElevatorConstants.KS;
-        left.set(filter.calculate(speed));
+        left.set(filter.calculate(speed) + ElevatorConstants.KS);
     }
 
     public boolean getBottomLimitSwitch() {

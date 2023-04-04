@@ -11,8 +11,10 @@ public final class SetElevatorCommand extends CommandBase {
     private final ElevatorSubsystem elevatorSubsystem;
 
     public SetElevatorCommand(double pos, ElevatorSubsystem elevatorSubsystem) {
+        pos = Math.max(Math.min(pos, 42), 1);
         this.elevatorSubsystem = elevatorSubsystem;
         addRequirements(elevatorSubsystem);
+        pid.setTolerance(ElevatorConstants.ERROR);
         pid.setSetpoint(pos);
     }
 

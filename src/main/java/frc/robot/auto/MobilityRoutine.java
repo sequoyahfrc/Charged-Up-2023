@@ -19,7 +19,7 @@ public final class MobilityRoutine extends SequentialCommandGroup {
         addCommands(new RunCommand(() -> {
             driveSubsystem.set(new ChassisSpeeds(AutoConstants.MOBILITY_SPEED, 0, 0), true);
         }, driveSubsystem)
-            .raceWith(new WaitUntilCommand(() -> Math.abs(driveSubsystem.getPose().getX()) > 4  )));
+            .raceWith(new WaitUntilCommand(() -> Math.abs(driveSubsystem.getOdometryPose().getX()) > 4  )));
         addCommands(new InstantCommand(() -> {
             driveSubsystem.stop();
         }));
