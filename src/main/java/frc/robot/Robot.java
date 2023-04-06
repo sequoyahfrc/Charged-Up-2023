@@ -3,6 +3,7 @@ package frc.robot;
 import java.util.Optional;
 
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.HttpCamera;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.networktables.IntegerSubscriber;
@@ -17,7 +18,6 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.auto.AutoConstants;
-import frc.robot.auto.Balance2Routine;
 import frc.robot.auto.BalanceRoutine;
 import frc.robot.auto.MobilityRoutine;
 import frc.robot.claw.ClawConstants;
@@ -41,6 +41,8 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     CameraServer.startAutomaticCapture();
+    CameraServer.addCamera(new HttpCamera("limelightL", "http://10.80.80.11:5800"));
+    CameraServer.addCamera(new HttpCamera("limelightR", "http://10.80.80.12:5800"));
     DataLogManager.start();
 
     DriverStation.startDataLog(DataLogManager.getLog(), false);
@@ -69,6 +71,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putString("DB/String 4", "R: " + (int)(driveSubsystem.getRoll() * 100.0) / 100.0);
     SmartDashboard.putString("DB/String 5", "TID: " + getPrimaryApriltag().map(x -> "" + x).orElse("N/A"));
     SmartDashboard.putString("DB/String 6", "CA: " + (int)(clawSubsystem.getAngle() * 100.0) / 100.0);
+    SmartDashboard.putString("DB/String 7", "EP: " + (int)(elevatorSubsystem.getMotorPosition() * 100.0) / 100.0);
   }
 
   @Override
@@ -88,16 +91,23 @@ public class Robot extends TimedRobot {
       case AutoConstants.ROUTINE_BALANCE:
         autoCommand = new BalanceRoutine(driveSubsystem, false);
         break;
-      case AutoConstants.ROUTINE_BALANCE_INVERTED:
+      case AutoConstants.ROUTINE_HIGH_CUBE:
         driveSubsystem.calibrateGyro(Rotation2d.fromDegrees(180));
-        autoCommand = new BalanceRoutine(driveSubsystem, false);
-        break;
-      case AutoConstants.ROUTINE_BALANCE2:
-        autoCommand = new Balance2Routine(driveSubsystem);
-        break;
-      case AutoConstants.ROUTINE_DUMP:
-      driveSubsystem.calibrateGyro(Rotation2d.fromDegrees(180));
         autoCommand = AutoShootRoutine.HIGH_CUBE.toCommand(elevatorSubsystem, clawSubsystem);
+        break;
+      case AutoConstants.ROUTINE_MID_CUBE:
+        driveSubsystem.calibrateGyro(Rotation2d.fromDegrees(180));
+        autoCommand = AutoShootRoutine.HIGH_CUBE.toCommand(elevatorSubsystem, clawSubsystem);
+        break;
+      case AutoConstants.ROUTINE_HIGH_CUBE_BALANCE:
+        driveSubsystem.calibrateGyro(Rotation2d.fromDegrees(180));
+        autoCommand = AutoShootRoutine.HIGH_CUBE.toCommand(elevatorSubsystem, clawSubsystem)
+          .andThen(new BalanceRoutine(driveSubsystem, true));
+        break;
+      case AutoConstants.ROUTINE_MID_CUBE_BALANCE:
+        driveSubsystem.calibrateGyro(Rotation2d.fromDegrees(180));
+        autoCommand = AutoShootRoutine.MID_CUBE.toCommand(elevatorSubsystem, clawSubsystem)
+          .andThen(new BalanceRoutine(driveSubsystem, true));
         break;
       default:
         autoCommand = new InstantCommand();
@@ -133,16 +143,16 @@ public class Robot extends TimedRobot {
         clawSubsystem.setWrist(0);
       }
 
-      if (Controls.getDriver2Outtake()) {
-        CommandScheduler.getInstance().schedule(new ShootCommand(-ClawConstants.INTAKE_SPEED, clawSubsystem));
-      }
-
       if (Controls.getDriver2Intake()) {
         clawSubsystem.setIntake(ClawConstants.INTAKE_SPEED);
       } else if (Controls.getDriver2Outtake()) {
-        clawSubsystem.setIntake(-ClawConstants.INTAKE_SPEED);
+        clawSubsystem.setIntake(-ClawConstants.INTAKE_SPEED); 
       } else {
         clawSubsystem.setIntake(0);
+      }
+
+      if (Controls.INSTANCE.driver2.getRawButtonPressed(1)) {
+        CommandScheduler.getInstance().schedule(new ShootCommand(-0.3, clawSubsystem));
       }
     }
 
@@ -158,6 +168,18 @@ public class Robot extends TimedRobot {
         CommandScheduler.getInstance().schedule(TagAlignments.CUBE.toCommand(driveSubsystem)
           .andThen(new WaitCommand(0.1)
           .andThen(AutoShootRoutine.MID_CUBE.toCommand(elevatorSubsystem, clawSubsystem))));
+      }
+
+      if (Controls.getDriver2HighCone()) {
+        CommandScheduler.getInstance().schedule(TagAlignments.CONE.toCommand(driveSubsystem)
+        .andThen(new WaitCommand(0.1))
+        .andThen(AutoShootRoutine.HIGH_CONE.toCommand(elevatorSubsystem, clawSubsystem)));
+      }
+
+      if (Controls.getDriver2MidCone()) {
+        CommandScheduler.getInstance().schedule(TagAlignments.CONE.toCommand(driveSubsystem)
+        .andThen(new WaitCommand(0.1))
+        .andThen(AutoShootRoutine.MID_CONE.toCommand(elevatorSubsystem, clawSubsystem)));
       }
     }
 
@@ -190,6 +212,9 @@ public class Robot extends TimedRobot {
       CommandScheduler.getInstance().enable();
       CommandScheduler.getInstance().schedule(new ZeroElevatorCommand(elevatorSubsystem));
       driveSubsystem.reset();
+      if (SmartDashboard.getBoolean("DB/Button 0", false)) {
+        driveSubsystem.calibrateGyro(Rotation2d.fromDegrees(180));
+      }
   }
 
   private boolean isInUse(SubsystemBase subsystem) {

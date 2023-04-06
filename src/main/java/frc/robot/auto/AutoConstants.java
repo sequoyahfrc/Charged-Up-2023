@@ -1,48 +1,22 @@
 package frc.robot.auto;
 
-import edu.wpi.first.math.geometry.Translation2d;
-
 public final class AutoConstants {
-
-    private static final double INCHES_TO_METERS = 2.54 / 100.0;
-    public static final double FIELD_CENTER_X_INCHES = 325.625;
-    public static final double FIELD_CENTER_Y_INCHES = 157.8;
-    public static final double CENTER_LINE_TO_PIECES = 47.36;
-    public static final double PIECES_TO_BOTTOM_COMMUNITY_TAPE = 85.13;
-    public static final double TOP_COMMUNITY_TAPE_BLUE = FIELD_CENTER_X_INCHES - CENTER_LINE_TO_PIECES - PIECES_TO_BOTTOM_COMMUNITY_TAPE;
-    public static final double BOTTOM_COMMUNITY_TAPE_BLUE = FIELD_CENTER_X_INCHES - CENTER_LINE_TO_PIECES - PIECES_TO_BOTTOM_COMMUNITY_TAPE - 62.0625;
-    public static final double TOP_COMMUNITY_TAPE_RED = FIELD_CENTER_X_INCHES + CENTER_LINE_TO_PIECES + PIECES_TO_BOTTOM_COMMUNITY_TAPE;
-    public static final double BOTTOM_COMMUNITY_TAPE_RED = FIELD_CENTER_X_INCHES + CENTER_LINE_TO_PIECES + PIECES_TO_BOTTOM_COMMUNITY_TAPE + 62.0625;
-    public static final double GAME_PIECE_1_Y = 36.19;
-    public static final double GAME_PIECE_2_Y = GAME_PIECE_1_Y + 48;
-    public static final double GAME_PIECE_3_Y = GAME_PIECE_2_Y + 48;
-    public static final double GAME_PIECE_4_Y = GAME_PIECE_3_Y + 48;
-
-    public static final Translation2d GAME_PIECE_1_BLUE = new Translation2d(FIELD_CENTER_X_INCHES - CENTER_LINE_TO_PIECES, GAME_PIECE_1_Y).times(INCHES_TO_METERS);
-    public static final Translation2d GAME_PIECE_2_BLUE = new Translation2d(FIELD_CENTER_X_INCHES - CENTER_LINE_TO_PIECES, GAME_PIECE_2_Y).times(INCHES_TO_METERS);
-    public static final Translation2d GAME_PIECE_3_BLUE = new Translation2d(FIELD_CENTER_X_INCHES - CENTER_LINE_TO_PIECES, GAME_PIECE_3_Y).times(INCHES_TO_METERS);
-    public static final Translation2d GAME_PIECE_4_BLUE = new Translation2d(FIELD_CENTER_X_INCHES - CENTER_LINE_TO_PIECES, GAME_PIECE_4_Y).times(INCHES_TO_METERS);
-
-    public static final Translation2d GAME_PIECE_1_RED = new Translation2d(FIELD_CENTER_X_INCHES + CENTER_LINE_TO_PIECES, GAME_PIECE_1_Y).times(INCHES_TO_METERS);
-    public static final Translation2d GAME_PIECE_2_RED = new Translation2d(FIELD_CENTER_X_INCHES + CENTER_LINE_TO_PIECES, GAME_PIECE_2_Y).times(INCHES_TO_METERS);
-    public static final Translation2d GAME_PIECE_3_RED = new Translation2d(FIELD_CENTER_X_INCHES + CENTER_LINE_TO_PIECES, GAME_PIECE_3_Y).times(INCHES_TO_METERS);
-    public static final Translation2d GAME_PIECE_4_RED = new Translation2d(FIELD_CENTER_X_INCHES + CENTER_LINE_TO_PIECES, GAME_PIECE_4_Y).times(INCHES_TO_METERS);
 
     public static final String ROUTINE_NOTHING = "Nothing";
     public static final String ROUTINE_BALANCE = "Balance";
-    public static final String ROUTINE_BALANCE_INVERTED = "Balance Backwards";
-    public static final String ROUTINE_BALANCE2 = "Mobility + Balance";
     public static final String ROUTINE_MOBILITY = "Mobility";
-    public static final String ROUTINE_DUMP = "High Cube";
-    public static final String ROUTINE_DUMP2 = "Dump & Balance";
+    public static final String ROUTINE_HIGH_CUBE = "High Cube";
+    public static final String ROUTINE_MID_CUBE = "Mid Cube";
+    public static final String ROUTINE_HIGH_CUBE_BALANCE = "High Cube + Balance";
+    public static final String ROUTINE_MID_CUBE_BALANCE = "Mid Cube + Balance";
     public static final String[] ROUTINES = new String[] {
         ROUTINE_NOTHING,
         ROUTINE_BALANCE,
-        ROUTINE_BALANCE_INVERTED,
-        ROUTINE_BALANCE2,
         ROUTINE_MOBILITY,
-        ROUTINE_DUMP,
-        ROUTINE_DUMP2,
+        ROUTINE_HIGH_CUBE,
+        ROUTINE_MID_CUBE,
+        ROUTINE_HIGH_CUBE_BALANCE,
+        ROUTINE_MID_CUBE_BALANCE
     };
 
     public static final double MOBILITY_TIME = 4.0;

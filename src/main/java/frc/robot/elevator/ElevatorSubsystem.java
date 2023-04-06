@@ -29,9 +29,13 @@ public final class ElevatorSubsystem extends SubsystemBase {
         right.follow(left);
         left.setSelectedSensorPosition(0);
         left.configPeakOutputForward(ElevatorConstants.MAX_SPEED);
-        left.configPeakOutputReverse(-ElevatorConstants.MAX_SPEED / 2);
+        left.configPeakOutputReverse(-ElevatorConstants.MAX_SPEED);
         right.configPeakOutputForward(ElevatorConstants.MAX_SPEED);
-        right.configPeakOutputReverse(-ElevatorConstants.MAX_SPEED / 2);
+        right.configPeakOutputReverse(-ElevatorConstants.MAX_SPEED);
+        left.configVoltageCompSaturation(12);
+        left.enableVoltageCompensation(true);
+        right.configVoltageCompSaturation(12);
+        right.enableVoltageCompensation(true);
     }
 
     @Override
@@ -64,10 +68,10 @@ public final class ElevatorSubsystem extends SubsystemBase {
             speed *= 0.5;
         }
         if (getBottomLimitSwitch() && speed < 0) {
-            return;
+            speed = 0;
         }
         if (getTopLimitSwitch() && speed > 0) {
-            return;
+            speed = 0;
         }
         left.set(filter.calculate(speed) + ElevatorConstants.KS);
     }

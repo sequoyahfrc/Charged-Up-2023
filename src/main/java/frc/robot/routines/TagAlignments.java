@@ -2,21 +2,22 @@ package frc.robot.routines;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.drive.DriveSubsystem;
-import frc.robot.drive.commands.AlignToTXCommand;
+import frc.robot.drive.commands.AlignToTagCommand;
 
 public enum TagAlignments {
-    //CONE_LEFT(0),
-    //CONE_RIGHT(0),
-    CUBE(17.008802, -15.587663);
+    CONE(0, 0, true), // Claibrated in LL dashboard
+    CUBE(-0.20, -0.66, false);
 
-    private double txL, txR;
+    private final double x, z;
+    private final boolean retro;
     
-    private TagAlignments(double txL, double txR) {
-        this.txL = txL;
-        this.txR = txR;
+    private TagAlignments(double x, double z, boolean retro) {
+        this.x = x;
+        this.z = z;
+        this.retro = retro;
     }
 
     public Command toCommand(DriveSubsystem driveSubsystem) {
-        return new AlignToTXCommand(txL, txR, driveSubsystem);
+        return new AlignToTagCommand(x, z, retro, driveSubsystem);
     }
 }
