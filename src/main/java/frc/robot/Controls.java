@@ -98,5 +98,13 @@ public final class Controls {
         return INSTANCE.driver2.getRawButtonPressed(12);
     }
 
+    public static boolean getDriver2ManualShootMid() {
+        return INSTANCE.driver2.getRawButtonPressed(7);
+    }
+
+    public static boolean getDriver2ManualShootHigh() {
+        return INSTANCE.driver2.getRawButtonPressed(8);
+    }
+
     private Controls() {}
 }

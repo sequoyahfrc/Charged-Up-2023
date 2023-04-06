@@ -181,6 +181,14 @@ public class Robot extends TimedRobot {
         .andThen(new WaitCommand(0.1))
         .andThen(AutoShootRoutine.MID_CONE.toCommand(elevatorSubsystem, clawSubsystem)));
       }
+
+      if (Controls.getDriver2ManualShootMid()) {
+        CommandScheduler.getInstance().schedule(new ShootCommand(-0.165, clawSubsystem));
+      }
+
+      if (Controls.getDriver2ManualShootHigh()) {
+        CommandScheduler.getInstance().schedule(new ShootCommand(-0.25, clawSubsystem));
+      }
     }
 
     // Cancel
