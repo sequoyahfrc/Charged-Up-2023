@@ -101,12 +101,12 @@ public class Robot extends TimedRobot {
       case AutoConstants.ROUTINE_HIGH_CUBE_BALANCE:
         driveSubsystem.calibrateGyro(Rotation2d.fromDegrees(180));
         autoCommand = AutoShootRoutine.HIGH_CUBE.toCommand(elevatorSubsystem, clawSubsystem)
-          .andThen(new BalanceRoutine(driveSubsystem, true));
+          .andThen(new BalanceRoutine(driveSubsystem, false));
         break;
       case AutoConstants.ROUTINE_MID_CUBE_BALANCE:
         driveSubsystem.calibrateGyro(Rotation2d.fromDegrees(180));
         autoCommand = AutoShootRoutine.MID_CUBE.toCommand(elevatorSubsystem, clawSubsystem)
-          .andThen(new BalanceRoutine(driveSubsystem, true));
+          .andThen(new BalanceRoutine(driveSubsystem, false));
         break;
       default:
         autoCommand = new InstantCommand();
