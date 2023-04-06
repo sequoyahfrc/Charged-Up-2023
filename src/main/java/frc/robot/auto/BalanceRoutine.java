@@ -47,20 +47,17 @@ public final class BalanceRoutine extends CommandBase {
                     delay.start();
                 }
                 break;
-            // case WAIT_FOR_HIGH_DPITCH:
-            //     driveSubsystem.set(new ChassisSpeeds(tfs, 0, 0));
-            //     if (dPitch >= AutoConstants.BALANCE_VELOCITY_THRESHOLD && delay.get() >= 1.5) {
-            //     //if (pitch > AutoConstants.BALANCE_TILT_FORWARD_THRESHOLD) {
-            //         state = state.next();
-            //     }
-            //     break;
+            case WAIT_FOR_HIGH_DPITCH:
+                driveSubsystem.set(new ChassisSpeeds(tfs, 0, 0));
+                if (dPitch >= AutoConstants.BALANCE_VELOCITY_THRESHOLD && delay.get() >= 1.5) {
+                    state = state.next();
+                    delay.restart();
+                }
+                break;
             case CORRECTING:
-                if (Math.abs(getPitch()) < 1) {
-                    driveSubsystem.enable1771BrickMode();
-                } else if (getPitch() > 0) {
-                    driveSubsystem.set(new ChassisSpeeds(Math.abs(tfs), 0, 0));
-                } else if (getPitch() < 0) {
-                    driveSubsystem.set(new ChassisSpeeds(-Math.abs(tfs), 0, 0));
+                driveSubsystem.set(new ChassisSpeeds(AutoConstants.BALANCE_CORRECTING_SPEED, 0, 0));
+                if (delay.get() >= AutoConstants.BALANCE_CORRECTING_TIME) {
+                    state = state.next();
                 }
                 break;
             default: // Just in case something funny happens, bail out
@@ -90,7 +87,7 @@ public final class BalanceRoutine extends CommandBase {
 
     private enum State {
         WAIT_FOR_TILT_BACK,
-        //WAIT_FOR_HIGH_DPITCH,
+        WAIT_FOR_HIGH_DPITCH,
         CORRECTING,
         DONE;
 

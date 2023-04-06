@@ -26,12 +26,12 @@ public final class AutoConstants {
     public static final double MOBILITY_TIME = 4.0;
     public static final double MOBILITY_SPEED = -1.75;
 
-    public static final double BALANCE_TILT_BACK_SPEED = -4.0;
-    public static final double BALANCE_TILT_BACK_THRESHOLD = -10; // degrees
-    public static final double BALANCE_TILT_FORWARD_SPEED = -1.3;
+    public static final double BALANCE_TILT_BACK_SPEED = -2.75;
+    public static final double BALANCE_TILT_BACK_THRESHOLD = -7.5; // degrees
+    public static final double BALANCE_TILT_FORWARD_SPEED = -1.0;
     public static final double BALANCE_TILT_FORWARD_THRESHOLD = -11; // degrees
-    public static final double BALANCE_CORRECTING_SPEED = 1.85;
-    public static final double BALANCE_CORRECTING_THRESHOLD = 2.0; // degrees
+    public static final double BALANCE_CORRECTING_SPEED = 1.0;
+    public static final double BALANCE_CORRECTING_TIME = 0.25;
 
     public static final double BALANCE2_MOBILITY_SPEED = -2;
     public static final double BALANCE2_MOBILITY_X_THRESHOLD = 5.5;

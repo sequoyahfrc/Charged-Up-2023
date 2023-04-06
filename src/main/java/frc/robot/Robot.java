@@ -191,7 +191,7 @@ public class Robot extends TimedRobot {
 
       if (Controls.getDriver2ToSubStationHeight()) {
         CommandScheduler.getInstance().schedule(new SetElevatorCommand(ElevatorConstants.SUBSTATION_HEIGHT, elevatorSubsystem)
-          .alongWith(new SetClawAngleCommand(0, clawSubsystem)));
+          .alongWith(new SetClawAngleCommand(15.93, clawSubsystem)));
       }
     }
 

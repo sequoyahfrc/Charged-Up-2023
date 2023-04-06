@@ -25,7 +25,7 @@ public final class DriveConstants {
 
     public static final double ENCODER_FL_OFFSET = -370.895020 - 90;
     public static final double ENCODER_FR_OFFSET =  25.427333 + 180;
-    public static final double ENCODER_BL_OFFSET = -96.001853 + 0;
+    public static final double ENCODER_BL_OFFSET = -96.001853 + 90;
     public static final double ENCODER_BR_OFFSET = -16.393339 + 0;
 
     public static final int AZIMUTH_FL_ID = 0;
