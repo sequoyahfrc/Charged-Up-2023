@@ -9,6 +9,10 @@ public final class AutoConstants {
     public static final String ROUTINE_MID_CUBE = "Mid Cube";
     public static final String ROUTINE_HIGH_CUBE_BALANCE = "High Cube + Balance";
     public static final String ROUTINE_MID_CUBE_BALANCE = "Mid Cube + Balance";
+    public static final String ROUTINE_HIGH_CUBE_MOBILITY_SHORT_SIDE = "High Cube + Mobility (Short Side)";
+    public static final String ROUTINE_MID_CUBE_MOBILITY_SHORT_SIDE = "Mid Cube + Mobility (Short Side)";
+    public static final String ROUTINE_HIGH_CUBE_MOBILITY_LONG_SIDE = "High Cube + Mobility (Long Side)";
+    public static final String ROUTINE_MID_CUBE_MOBILITY_LONG_SIDE = "Mid Cube + Mobility (Long Side)";
     public static final String[] ROUTINES = new String[] {
         ROUTINE_NOTHING,
         ROUTINE_BALANCE,
