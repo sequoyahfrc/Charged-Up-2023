@@ -57,6 +57,8 @@ public class Robot extends TimedRobot {
 
     driveSubsystem.reset();
     driveSubsystem.zero();
+
+    driveSubsystem.setDefaultCommand(new DriveCommand(driveSubsystem));
   }
 
   @Override
@@ -72,11 +74,6 @@ public class Robot extends TimedRobot {
     SmartDashboard.putString("DB/String 5", "TID: " + getPrimaryApriltag().map(x -> "" + x).orElse("N/A"));
     SmartDashboard.putString("DB/String 6", "CA: " + (int)(clawSubsystem.getAngle() * 100.0) / 100.0);
     SmartDashboard.putString("DB/String 7", "EP: " + (int)(elevatorSubsystem.getMotorPosition() * 100.0) / 100.0);
-  }
-
-  @Override
-  public void teleopInit() {
-    driveSubsystem.setDefaultCommand(new DriveCommand(driveSubsystem));
   }
 
   @Override
@@ -201,7 +198,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopExit() {
-    driveSubsystem.removeDefaultCommand();
     CommandScheduler.getInstance().cancelAll();
   }
 
