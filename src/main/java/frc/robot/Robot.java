@@ -81,7 +81,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     CommandScheduler.getInstance().enable();
-    driveSubsystem.zero();
+    driveSubsystem.reset();
     Command autoCommand;
     switch (SmartDashboard.getString("Auto Selector", AutoConstants.ROUTINE_NOTHING)) {
       case AutoConstants.ROUTINE_MOBILITY:

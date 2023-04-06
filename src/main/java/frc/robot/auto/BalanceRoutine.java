@@ -57,8 +57,10 @@ public final class BalanceRoutine extends CommandBase {
             case CORRECTING:
                 if (Math.abs(getPitch()) < 1) {
                     driveSubsystem.enable1771BrickMode();
-                } else {
-                    driveSubsystem.set(new ChassisSpeeds(Math.signum(getPitch()) * Math.abs(tfs), 0, 0));
+                } else if (getPitch() > 0) {
+                    driveSubsystem.set(new ChassisSpeeds(Math.abs(tfs), 0, 0));
+                } else if (getPitch() < 0) {
+                    driveSubsystem.set(new ChassisSpeeds(-Math.abs(tfs), 0, 0));
                 }
                 break;
             default: // Just in case something funny happens, bail out
@@ -83,7 +85,7 @@ public final class BalanceRoutine extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return state == State.DONE;
+        return state == State.DONE || Math.abs(driveSubsystem.getOdometryPose().getX()) > 5;
     }
 
     private enum State {
