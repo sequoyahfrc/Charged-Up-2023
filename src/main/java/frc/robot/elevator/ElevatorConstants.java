@@ -18,6 +18,8 @@ public final class ElevatorConstants {
     public static final double ZERO_SPEED = MANUAL_DOWN_SPEED;
     public static final double MAX_SPEED = 0.4;
 
+    public static final double SUBSTATION_HEIGHT = 5;
+
     public static final double ERROR = 0.1;
 
     public static final double MAX_HEIGHT = 43.0;

@@ -22,11 +22,13 @@ import frc.robot.auto.BalanceRoutine;
 import frc.robot.auto.MobilityRoutine;
 import frc.robot.claw.ClawConstants;
 import frc.robot.claw.ClawSubsystem;
+import frc.robot.claw.commands.SetClawAngleCommand;
 import frc.robot.claw.commands.ShootCommand;
 import frc.robot.drive.DriveSubsystem;
 import frc.robot.drive.commands.DriveCommand;
 import frc.robot.elevator.ElevatorConstants;
 import frc.robot.elevator.ElevatorSubsystem;
+import frc.robot.elevator.commands.SetElevatorCommand;
 import frc.robot.elevator.commands.ZeroElevatorCommand;
 import frc.robot.routines.AutoShootRoutine;
 import frc.robot.routines.TagAlignments;
@@ -185,6 +187,11 @@ public class Robot extends TimedRobot {
         CommandScheduler.getInstance().schedule(TagAlignments.CONE.toCommand(driveSubsystem)
         .andThen(new WaitCommand(0.1))
         .andThen(AutoShootRoutine.MID_CONE.toCommand(elevatorSubsystem, clawSubsystem)));
+      }
+
+      if (Controls.getDriver2ToSubStationHeight()) {
+        CommandScheduler.getInstance().schedule(new SetElevatorCommand(ElevatorConstants.SUBSTATION_HEIGHT, elevatorSubsystem)
+          .alongWith(new SetClawAngleCommand(0, clawSubsystem)));
       }
     }
 

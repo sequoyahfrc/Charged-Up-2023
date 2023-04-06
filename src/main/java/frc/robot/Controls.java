@@ -106,5 +106,9 @@ public final class Controls {
         return INSTANCE.driver2.getRawButtonPressed(8);
     }
 
+    public static boolean getDriver2ToSubStationHeight() {
+        return INSTANCE.driver2.getPOV() == 90;
+    }
+
     private Controls() {}
 }
