@@ -10,7 +10,7 @@ public final class ElevatorConstants {
     public static final double P = 0.1;
     public static final double D = 0.0;
     public static final double DEADBAND = 0.05;
-    public static final double KS = 0.08;
+    public static final double KS = 0.05;
 
     public static final double MANUAL_UP_SPEED = 0.3;
     public static final double MANUAL_DOWN_SPEED = -0.3;
