@@ -105,7 +105,7 @@ public final class AlignToTagCommand extends CommandBase {
     private static double filter(double x) {
         double s = Math.signum(x);
         x = x < 1 ? Math.pow(x, 2) : x;
-        return s * Math.max(Math.min(x, 2.0), 0);
+        return Math.max(Math.min(s * x, 2.0), -2.0);
     }
 
     private double getX() {

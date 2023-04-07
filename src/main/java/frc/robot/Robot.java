@@ -76,6 +76,10 @@ public class Robot extends TimedRobot {
     SmartDashboard.putString("DB/String 5", "TID: " + getPrimaryApriltag().map(x -> "" + x).orElse("N/A"));
     SmartDashboard.putString("DB/String 6", "CA: " + (int)(clawSubsystem.getAngle() * 100.0) / 100.0);
     SmartDashboard.putString("DB/String 7", "EP: " + (int)(elevatorSubsystem.getMotorPosition() * 100.0) / 100.0);
+
+    SmartDashboard.putBoolean("DB/LED 0", driveSubsystem.getCurrentCommand() != null && !(driveSubsystem.getCurrentCommand() instanceof DriveCommand));
+    SmartDashboard.putBoolean("DB/LED 1", isInUse(clawSubsystem));
+    SmartDashboard.putBoolean("DB/LED 2", isInUse(clawSubsystem));
   }
 
   @Override
