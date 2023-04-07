@@ -1,6 +1,7 @@
 package frc.robot.drive.components;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -54,6 +55,9 @@ public final class SwerveModule implements Sendable {
         azimuth.setNeutralMode(NeutralMode.Coast);
         drive.setSelectedSensorPosition(0);
         azimuth.setSelectedSensorPosition(0);
+
+        drive.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 60, 80, 0.1));
+        azimuth.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 60, 80, 0.1));
 
         SendableRegistry.add(this, "SwerveModule-" + name);
     }

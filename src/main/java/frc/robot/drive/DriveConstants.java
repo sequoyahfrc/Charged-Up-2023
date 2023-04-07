@@ -14,8 +14,8 @@ public final class DriveConstants {
     public static final double WIDTH = 0.5383022; // meters
     public static final double LENGTH = 0.6399022; // meters
 
-    public static final double SPEED_BOOST = 1.75;
-    public static final double MAX_SPEED = 6.35;
+    public static final double SPEED_BOOST = 4.0;
+    public static final double MAX_SPEED = 9.0;
     public static final double MAX_ROTATION_SPEED = Math.PI * 1.5;
 
     public static final double TURN_TO_ERROR = 1.0; // degrees
