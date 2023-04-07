@@ -14,7 +14,7 @@ public final class BalanceRoutine extends CommandBase {
     private final Timer delay = new Timer();
     private final MedianFilter filter = new MedianFilter(AutoConstants.BALANCE_FILTER_SIZE);
     private State state = State.WAIT_FOR_TILT_BACK;
-    private double tbs, tfs/*, tcs*/;
+    private double tbs, tfs, tcs;
     private double lastPitch;
     private long lastTime;
 
@@ -28,7 +28,7 @@ public final class BalanceRoutine extends CommandBase {
     public void initialize() {
         tbs = (invertSpeeds ? -1 : 1) * AutoConstants.BALANCE_TILT_BACK_SPEED;
         tfs = (invertSpeeds ? -1 : 1) * AutoConstants.BALANCE_TILT_FORWARD_SPEED;
-        // tcs = (invertSpeeds ? -1 : 1) * AutoConstants.BALANCE_CORRECTING_SPEED;
+        tcs = (invertSpeeds ? -1 : 1) * AutoConstants.BALANCE_CORRECTING_SPEED;
         lastTime = System.currentTimeMillis();
     }
 
@@ -55,7 +55,7 @@ public final class BalanceRoutine extends CommandBase {
                 }
                 break;
             case CORRECTING:
-                driveSubsystem.set(new ChassisSpeeds(AutoConstants.BALANCE_CORRECTING_SPEED, 0, 0));
+                driveSubsystem.set(new ChassisSpeeds(tcs, 0, 0));
                 if (delay.get() >= AutoConstants.BALANCE_CORRECTING_TIME) {
                     state = state.next();
                 }
