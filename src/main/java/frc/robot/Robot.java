@@ -59,8 +59,6 @@ public class Robot extends TimedRobot {
 
     driveSubsystem.reset();
     driveSubsystem.zero();
-
-    driveSubsystem.setDefaultCommand(new DriveCommand(driveSubsystem));
   }
 
   @Override
@@ -232,8 +230,14 @@ public class Robot extends TimedRobot {
   }
 
   @Override
+  public void teleopInit() {
+    driveSubsystem.setDefaultCommand(new DriveCommand(driveSubsystem));
+  }
+
+  @Override
   public void teleopExit() {
     CommandScheduler.getInstance().cancelAll();
+    CommandScheduler.getInstance().removeDefaultCommand(driveSubsystem);
   }
 
   @Override
