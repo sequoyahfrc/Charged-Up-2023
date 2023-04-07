@@ -19,6 +19,11 @@ public final class ZeroElevatorCommand extends CommandBase {
     }
 
     @Override
+    public void end(boolean interrupted) {
+        elevatorSubsystem.setMotor(0);
+    }
+
+    @Override
     public boolean isFinished() {
         return elevatorSubsystem.getBottomLimitSwitch();
     }
