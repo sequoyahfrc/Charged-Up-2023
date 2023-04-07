@@ -6,7 +6,9 @@ import frc.robot.drive.commands.AlignToTagCommand;
 
 public enum TagAlignments {
     CONE(0, 0, true), // Claibrated in LL dashboard
-    CUBE(-0.20, -0.66, false);
+    CUBE(-0.20, -0.66, false),
+    SHORT_SIDE(0.38, -0.80, false),
+    LONG_SIDE(-0.62, -0.80, false);
 
     private final double x, z;
     private final boolean retro;

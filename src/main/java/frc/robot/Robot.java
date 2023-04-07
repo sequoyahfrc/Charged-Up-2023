@@ -108,6 +108,30 @@ public class Robot extends TimedRobot {
         autoCommand = AutoShootRoutine.MID_CUBE.toCommand(elevatorSubsystem, clawSubsystem)
           .andThen(new BalanceRoutine(driveSubsystem, false));
         break;
+      case AutoConstants.ROUTINE_HIGH_CUBE_MOBILITY_SHORT_SIDE:
+        driveSubsystem.calibrateGyro(Rotation2d.fromDegrees(180));
+        autoCommand = AutoShootRoutine.HIGH_CUBE.toCommand(elevatorSubsystem, clawSubsystem)
+          .andThen(TagAlignments.SHORT_SIDE.toCommand(driveSubsystem))
+          .andThen(new MobilityRoutine(driveSubsystem, false));
+        break;
+      case AutoConstants.ROUTINE_MID_CUBE_MOBILITY_SHORT_SIDE:
+        driveSubsystem.calibrateGyro(Rotation2d.fromDegrees(180));
+        autoCommand = AutoShootRoutine.MID_CUBE.toCommand(elevatorSubsystem, clawSubsystem)
+          .andThen(TagAlignments.SHORT_SIDE.toCommand(driveSubsystem))
+          .andThen(new MobilityRoutine(driveSubsystem, false));
+        break;
+      case AutoConstants.ROUTINE_HIGH_CUBE_MOBILITY_LONG_SIDE:
+        driveSubsystem.calibrateGyro(Rotation2d.fromDegrees(180));
+        autoCommand = AutoShootRoutine.HIGH_CUBE.toCommand(elevatorSubsystem, clawSubsystem)
+          .andThen(TagAlignments.LONG_SIDE.toCommand(driveSubsystem))
+          .andThen(new MobilityRoutine(driveSubsystem, false));
+        break;
+      case AutoConstants.ROUTINE_MID_CUBE_MOBILITY_LONG_SIDE:
+        driveSubsystem.calibrateGyro(Rotation2d.fromDegrees(180));
+        autoCommand = AutoShootRoutine.MID_CUBE.toCommand(elevatorSubsystem, clawSubsystem)
+          .andThen(TagAlignments.LONG_SIDE.toCommand(driveSubsystem))
+          .andThen(new MobilityRoutine(driveSubsystem, false));
+        break;
       default:
         autoCommand = new InstantCommand();
         break;
@@ -167,28 +191,24 @@ public class Robot extends TimedRobot {
     if (!isInUse(clawSubsystem) && !isInUse(elevatorSubsystem)) {
       if (Controls.getDriver2HighCube()) {
         CommandScheduler.getInstance().schedule(TagAlignments.CUBE.toCommand(driveSubsystem)
-          .alongWith(new SetClawAngleCommand(90, clawSubsystem))
           .andThen(new WaitCommand(0.1)
           .andThen(AutoShootRoutine.HIGH_CUBE.toCommand(elevatorSubsystem, clawSubsystem))));
       }
 
       if (Controls.getDriver2MidCube()) {
         CommandScheduler.getInstance().schedule(TagAlignments.CUBE.toCommand(driveSubsystem)
-          .alongWith(new SetClawAngleCommand(90, clawSubsystem))
           .andThen(new WaitCommand(0.1)
           .andThen(AutoShootRoutine.MID_CUBE.toCommand(elevatorSubsystem, clawSubsystem))));
       }
 
       if (Controls.getDriver2HighCone()) {
         CommandScheduler.getInstance().schedule(TagAlignments.CONE.toCommand(driveSubsystem)
-        .alongWith(new SetClawAngleCommand(90, clawSubsystem))
         .andThen(new WaitCommand(0.1))
         .andThen(AutoShootRoutine.HIGH_CONE.toCommand(elevatorSubsystem, clawSubsystem)));
       }
 
       if (Controls.getDriver2MidCone()) {
         CommandScheduler.getInstance().schedule(TagAlignments.CONE.toCommand(driveSubsystem)
-        .alongWith(new SetClawAngleCommand(90, clawSubsystem))
         .andThen(new WaitCommand(0.1))
         .andThen(AutoShootRoutine.MID_CONE.toCommand(elevatorSubsystem, clawSubsystem)));
       }
